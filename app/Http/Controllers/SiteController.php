@@ -2,6 +2,7 @@
 
 namespace Corp\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use Corp\Repositories\MenusRepository;
 
@@ -29,7 +30,7 @@ class SiteController extends Controller
 
         $menu =$this->getMenu();
 
-        $navigation = view(env('THEME').'.navigation')->render();
+        $navigation = view(env('THEME').'.navigation')->with('menu', $menu)->render();
         $this->vars = array_add($this->vars, 'navigation', $navigation);
         return view($this->template)->with($this->vars);
     }
@@ -38,7 +39,23 @@ class SiteController extends Controller
 
         $menu = $this->m_rep->get();
 
-        return $menu;
+//Lavary extension
+        // functiayin trvac $m argument@ callback e ayinqn da nuyn $mBuildern e
+        $mBuilder = \Menu::make('MyNav', function($m) use ($menu){
+
+            foreach($menu as $item){
+
+                if($item->parent_id == 0){
+                    $m->add($item->title, $item->path)->id($item->id);//id()-i functian ksarqi id
+                }else {
+                    if($m->find($item->parent_id)){
+                        $m->find($item->parent_id)->add($item->title, $item->path)->id($item->id);
+                    }
+                }
+            }
+        });
+
+        return $mBuilder;
     }
 
 }
