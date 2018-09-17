@@ -28,6 +28,12 @@ Route::resource('/', 'IndexController', [
 
 Route::resource('portfolios', 'PortfolioController', [
                                                         'parameters' => [
-                                                            'portfolio' => 'alias',
+                                                            'portfolios' => 'alias',
                                                         ],
                                                     ]);
+
+Route::resource('articles', 'ArticlesController',[
+                                                    'parameters' =>[
+                                                        'articles' => 'alias'
+                                                    ],
+                                                ]);
