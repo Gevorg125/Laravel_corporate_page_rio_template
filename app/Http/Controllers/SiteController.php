@@ -16,9 +16,13 @@ class SiteController extends Controller
     protected $template; //shablon
     protected $vars =[]; //the variables for the template
 
-    protected $bar = FALSE; //will show if the is a sidebar( by default false)
+    protected $bar = 'no'; //will show if the is a sidebar( by default false)
     protected $contentRightBar = FALSE;
     protected $contentLeftBar = FALSE;
+
+    protected $keywords; // keys
+    protected $meta_desc; // metatags
+    protected $title; //title tag
 
     public function __construct(MenusRepository $m_rep){
 
@@ -37,6 +41,15 @@ class SiteController extends Controller
             $rightBar = view(env('THEME') . '.rightBar')->with('content_rightBar', $this->contentRightBar)->render();
             $this->vars = array_add($this->vars, 'rightBar', $rightBar);
         }
+        $this->vars = array_add($this->vars, 'bar', $this->bar);
+
+        $footer = view(env('THEME').'.footer')->render();
+        $this->vars = array_add($this->vars, 'footer', $footer);
+
+        $this->vars = array_add($this->vars, 'keywords', $this->keywords);
+        $this->vars = array_add($this->vars, 'meta_desc', $this->meta_desc);
+        $this->vars = array_add($this->vars, 'title', $this->title);
+
         return view($this->template)->with($this->vars);
     }
 

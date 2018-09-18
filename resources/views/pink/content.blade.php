@@ -2,8 +2,8 @@
     <div id="content-home" class="content group">
         <div class="hentry group">
             <div class="section portfolio">
-
-                <h3 class="title">Latest projects</h3>
+{{--lezvi hamar nayel -- config.app.locale u view.lang.ru filer@--}}
+                <h3 class="title">{{ trans('ru.latest_projects') }}</h3>
 
                 @foreach($portfolios as $k => $item)
 

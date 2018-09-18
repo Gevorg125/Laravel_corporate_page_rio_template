@@ -32,6 +32,10 @@ class IndexController extends SiteController
     public function index()
     {
         //
+        $this->keywords = 'Home Page';
+        $this->meta_desc = 'Home Page';
+        $this->title = 'Home Page';
+
         $portfolios = $this->getPortfolio();
         $content = view(env('THEME') . '.content')->with('portfolios', $portfolios)->render();
         $this->vars = array_add($this->vars, 'content', $content);
