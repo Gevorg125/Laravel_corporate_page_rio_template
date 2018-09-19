@@ -67,7 +67,7 @@ class IndexController extends SiteController
     }
 
     protected function getPortfolio(){
-        $portfolio = $this->p_rep->get('*', 5);
+        $portfolio = $this->p_rep->get('*', config('settings.home_port_count'));
 
 
         return $portfolio;
@@ -75,7 +75,7 @@ class IndexController extends SiteController
 
     protected function getArticle(){
 
-        $article = $this->a_rep->get(['title', 'created_at', 'img', 'alias'], 3);
+        $article = $this->a_rep->get(['title', 'created_at', 'img', 'alias'], config('settings.home_articles_count'));
         return $article;
     }
 

@@ -12,6 +12,7 @@ class SiteController extends Controller
     protected $s_rep; // for the slider repository
     protected $m_rep; //menu
     protected $a_rep; // articles
+    protected $c_rep; //comments
 
     protected $template; //shablon
     protected $vars =[]; //the variables for the template
