@@ -8,4 +8,5 @@ return [
     'previous' => '&laquo;',
     'next' => '&raquo;',
     'articles_no' => '<h2>Տվյալներ չկա</h2>',
+    'reply' => 'Պատասխանել',
 ];

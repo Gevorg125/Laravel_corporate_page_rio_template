@@ -2,6 +2,7 @@
 
 namespace Corp\Http\Controllers;
 
+use Corp\Category;
 use Corp\Menu;
 use Illuminate\Http\Request;
 use Corp\Repositories\MenusRepository;
@@ -22,10 +23,14 @@ class ArticlesController extends SiteController
         $this->bar = 'right';
     }
 
-    public function index()
+    public function index($cat_alias = False)
     {
         //
-        $articles = $this->getArticles();
+        $articles = $this->getArticles($cat_alias);
+
+        $this->title = 'Blog';
+        $this->keywords = 'Key';
+        $this->meta_desc = 'Description';
 
         $content = view(env('THEME'). '.articles_content')->with('articles', $articles)->render();
         $this->vars = array_add($this->vars, 'content', $content);
@@ -37,10 +42,44 @@ class ArticlesController extends SiteController
         return $this->renderOutput();
     }
 
+    public function show($alias = False){
+        //kveradarcni mi hat tvyal + commentner@ (commentneri u userni hamar querin grc e Articlerepository file-i mej),, haytararvac e Repository.php-um
+        $article = $this->a_rep->one($alias, ['comments' => TRUE]);
+
+
+        //group_by functiayov kdasavorvi @st parent_id-i patkanelutyan
+        //dd($article->comments->groupBy('parent_id'));
+
+
+        if($article){
+            $article->img = json_decode($article->img);
+        }
+        $content = view(env('THEME'). '.article_content')->with('article', $article)->render();
+
+        $this->title = $article->title;
+        $this->keywords = $article->keywords;
+        $this->meta_desc = $article->meta_desc;
+
+        $comments = $this->getComments(config('settings.recent_comments'));
+        $portfolios = $this->getPortfolios(config('settings.recent_portfolios'));
+        $this->contentRightBar = view(env('THEME'). '.articlesBar')->with(['comments'=>$comments, 'portfolios'=>$portfolios]);
+
+        $this->vars = array_add($this->vars, 'content', $content);
+        return $this->renderOutput();
+    }
+
     public function getArticles($alias = False){
 
+        $where = False;
+        if($alias){
+            //SELECT `id` WHERE `alias` = $alias
+            $id = Category::select('id')->where('alias', $alias)->first()->id;
+
+            //WHERE `category_id` = $id
+            $where = ['category_id', $id];
+        }
         //ete kan kapvac tablener, kapox dashten el en petq select anel tvyalner@ stanalu hamar
-        $articles = $this->a_rep->get(['id','title', 'alias', 'created_at', 'img', 'desc','user_id', 'category_id'], False, config('settings.paginate'));
+        $articles = $this->a_rep->get(['id','title', 'alias', 'created_at', 'img', 'desc','user_id', 'category_id', 'keywords', 'meta_desc'], False, True, $where);
 
        //Query-neri optimizacia e ,, comentel u nayel AppServiceProvider->boot->DB functian-> commentac e
         if($articles){

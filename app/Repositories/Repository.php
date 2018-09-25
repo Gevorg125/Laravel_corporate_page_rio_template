@@ -7,12 +7,16 @@ abstract class Repository {
 
     protected $model = False; //the object of the Model
 
-    public function get($select = '*', $take = FALSE, $pagination = FALSE){
+    public function get($select = '*', $take = FALSE, $pagination = FALSE, $where = False){
 
         $builder = $this->model->select($select);
 
         if($take){
             $builder->take($take);
+        }
+
+        if($where){
+            $builder->where($where[0], $where[1]);
         }
 
         if($pagination){
@@ -35,6 +39,12 @@ abstract class Repository {
             return $item;
         });
 
+        return $result;
+    }
+
+    public function one($alias, $attribute = []){
+
+        $result = $this->model->where('alias', $alias)->first();
         return $result;
     }
 }
