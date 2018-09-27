@@ -55,7 +55,7 @@
                             @endif
                     @endif
                 @else
-                    {!! Lang::get('ru.articles_no') !!}
+                    {!! Lang::get('ru.no_data') !!}
                 @endif
             </div>
 </div>

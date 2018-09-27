@@ -7,6 +7,6 @@ return [
     'read_more' => 'Կարդալ ավելին',
     'previous' => '&laquo;',
     'next' => '&raquo;',
-    'articles_no' => '<h2>Տվյալներ չկա</h2>',
+    'no_data' => '<h2>Տվյալներ չկա</h2>',
     'reply' => 'Պատասխանել',
 ];

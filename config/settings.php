@@ -6,4 +6,5 @@ return [
     'recent_comments' => 3,
     'recent_portfolios' => 3,
     'paginate' => 2,
+    'other_portfolios' => 8,
 ];

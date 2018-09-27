@@ -19,6 +19,11 @@
 //
 //Route::get('/home', 'HomeController@index')->name('home');
 
+
+//bolor url-neri hamar validacia grac e App/Providers/routeServiceProvider/boot file-i mej
+
+
+
 Route::resource('/', 'IndexController', [
                                         'only' => ['index'],
                                         'names' => [
@@ -38,6 +43,8 @@ Route::resource('articles', 'ArticlesController',[
                                                     ],
                                                 ]);
 
-Route::get('articles/cat/{cat_alias?}',['uses' => 'ArticlesController@index', 'as' => 'articlesCat']);
+Route::get('articles/cat/{cat_alias?}',['uses' => 'ArticlesController@index', 'as' => 'articlesCat'])->where('cat_alias', '[\w-]+');//urli-i validacia
 
 Route::resource('comment', 'CommentController', ['only' => ['store']]);
+
+Route::match(['get', 'post'], '/contacts', ['uses' => 'ContactsController@index', 'as' => 'contacts']);
