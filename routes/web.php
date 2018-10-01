@@ -48,3 +48,14 @@ Route::get('articles/cat/{cat_alias?}',['uses' => 'ArticlesController@index', 'a
 Route::resource('comment', 'CommentController', ['only' => ['store']]);
 
 Route::match(['get', 'post'], '/contacts', ['uses' => 'ContactsController@index', 'as' => 'contacts']);
+
+
+Route::get('login', 'Auth\LoginController@showLoginForm');
+
+Route::post('log_in', 'Auth\LoginController@authenticate');
+
+Route::get('logout', 'Auth\LoginController@logout');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

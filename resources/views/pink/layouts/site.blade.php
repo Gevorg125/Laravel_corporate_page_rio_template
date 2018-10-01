@@ -152,7 +152,7 @@
                 <!-- END PAGE META -->
         @endif
         <!-- START PRIMARY -->
-        <div id="primary" class="sidebar-{{ isset($bar) ? $bar : no }}">
+        <div id="primary" class="sidebar-{{ isset($bar) ? $bar : 'no' }}">
             <div class="inner group">
                 <!-- START CONTENT -->
                 @yield('content')

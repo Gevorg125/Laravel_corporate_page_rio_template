@@ -4,6 +4,8 @@ namespace Corp\Http\Controllers\Auth;
 
 use Corp\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -18,6 +20,7 @@ class LoginController extends Controller
     |
     */
 
+    //ays threat-i mej e login formi view-i hascen,, poxac e sra meji showLoginForm() method@ ays controlleri mej
     use AuthenticatesUsers;
 
     /**
@@ -25,15 +28,38 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+
+
+    protected $username = 'login';
+    protected $redirectTo = '/admin';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+
     public function __construct()
     {
+
+
         $this->middleware('guest')->except('logout');
     }
+
+    public function showLoginForm()
+    {
+
+        return view(env('THEME').'.login')->with('title', 'LoginForm');
+    }
+
+    public function authenticate(Request $request)
+    {
+
+        $credentials = $request->only('login', 'password');
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            return redirect()->intended('/admin');
+        }
+    }
+       
 }

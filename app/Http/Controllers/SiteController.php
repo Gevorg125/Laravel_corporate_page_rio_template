@@ -6,6 +6,7 @@ namespace Corp\Http\Controllers;
 use Illuminate\Http\Request;
 use Corp\Repositories\MenusRepository;
 
+
 class SiteController extends Controller
 {
     protected $p_rep; //for the saving logic of portfolio repository
@@ -60,11 +61,11 @@ class SiteController extends Controller
         return view($this->template)->with($this->vars);
     }
 
-    protected function getMenu(){
+    public function getMenu(){
 
         $menu = $this->m_rep->get();
 
-//Lavary extension
+        //Lavary extension
         // functiayin trvac $m argument@ callback e ayinqn da nuyn $mBuildern e
         $mBuilder = \Menu::make('MyNav', function($m) use ($menu){
 

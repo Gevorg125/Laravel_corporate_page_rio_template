@@ -2,7 +2,11 @@
 
 namespace Corp\Exceptions;
 
+use Corp\Menu;
+use Corp\Repositories\MenusRepository;
 use Exception;
+use Corp\Http\Controllers\SiteController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -36,6 +40,8 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+
+
         parent::report($exception);
     }
 
@@ -48,6 +54,23 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if($this->isHttpException($exception)){
+            $status_code = $exception->getStatusCode();
+
+            switch ($status_code){
+                case '404':
+
+                    //kstananq Menu objekt@, vor irancic vercnenq menu nkarelu logikan,, $obj->getMenu() functiayov
+                    $obj = new SiteController(new MenusRepository(new Menu()));
+                    $navigation = view(env('THEME').'.navigation')->with('menu', $obj->getMenu())->render();
+
+                    //Log filer@ /storage/logs/laravel.log
+                    //kgrancvi not found ejer@ logeri mej
+                    Log::alert('Page not found - '. $request->url());
+                    return response()->view(env('THEME'). '.404', ['bar' => 'no', 'title' => 'Pge Not Found', 'navigation' => $navigation]);
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }
